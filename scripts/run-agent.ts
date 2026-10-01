@@ -1,3 +1,4 @@
+import "../src/load-env.js";
 import { LangfuseClient } from "@langfuse/client";
 import { LangfuseSpanProcessor } from "@langfuse/otel";
 import { NodeSDK } from "@opentelemetry/sdk-node";

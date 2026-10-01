@@ -1,3 +1,4 @@
+import "../src/load-env.js";
 import { appendFile } from "node:fs/promises";
 import { LangfuseClient, type Evaluation, type Evaluator, type RunEvaluator } from "@langfuse/client";
 import { LangfuseSpanProcessor } from "@langfuse/otel";

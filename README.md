@@ -6,13 +6,11 @@ The example uses a real OpenAI call (`gpt-4.1-mini`), so it requires an OpenAI A
 
 ## 1. Prepare Langfuse and the dataset
 
-Create a Langfuse project and an API key, and get an OpenAI API key. Use Node.js 20 or newer. Set these environment variables in your shell (or load your own `.env` file); `.env.example` lists them:
+Create a Langfuse project and an API key, and get an OpenAI API key. Use Node.js 20.12 or newer. Copy `.env.example` to `.env` and fill in your keys. The local commands automatically load `.env`; values already set in your shell take precedence.
 
 ```sh
-export LANGFUSE_PUBLIC_KEY="pk-lf-..."
-export LANGFUSE_SECRET_KEY="sk-lf-..."
-export LANGFUSE_BASE_URL="https://cloud.langfuse.com"
-export OPENAI_API_KEY="sk-..."
+cp .env.example .env
+# Edit .env with your Langfuse and OpenAI keys.
 npm ci
 npm run seed
 ```

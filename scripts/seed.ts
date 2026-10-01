@@ -1,3 +1,4 @@
+import "../src/load-env.js";
 import { LangfuseClient } from "@langfuse/client";
 import { DATASET_NAME, initialPrompt, PROMPT_NAME, ticketCases } from "../src/cases.js";
 

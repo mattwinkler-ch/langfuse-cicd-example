@@ -1,0 +1,36 @@
+name: Evaluate Langfuse prompt
+
+on:
+  repository_dispatch:
+    types: [langfuse-prompt-update]
+  workflow_dispatch:
+    inputs:
+      candidate_version:
+        description: Langfuse ticket-router prompt version to test
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    if: github.event_name == 'workflow_dispatch' || (github.event.client_payload.prompt.name == 'ticket-router' && github.event.client_payload.action == 'created')
+    runs-on: ubuntu-latest
+    env:
+      CANDIDATE_VERSION: ${{ github.event.client_payload.prompt.version || inputs.candidate_version }}
+      LANGFUSE_PUBLIC_KEY: ${{ secrets.LANGFUSE_PUBLIC_KEY }}
+      LANGFUSE_SECRET_KEY: ${{ secrets.LANGFUSE_SECRET_KEY }}
+      LANGFUSE_BASE_URL: ${{ vars.LANGFUSE_BASE_URL || 'https://cloud.langfuse.com' }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - name: Compare candidate with production
+        run: npm run evaluate
