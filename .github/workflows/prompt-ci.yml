@@ -24,6 +24,21 @@ jobs:
       LANGFUSE_BASE_URL: ${{ vars.LANGFUSE_BASE_URL || 'https://cloud.langfuse.com' }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
+      - name: Check experiment configuration
+        shell: bash
+        run: |
+          missing=0
+          for name in LANGFUSE_PUBLIC_KEY LANGFUSE_SECRET_KEY OPENAI_API_KEY; do
+            if [[ -z "${!name}" ]]; then
+              echo "::error title=Missing Actions secret::$name is empty. Add it under Settings → Secrets and variables → Actions → Secrets for this repository."
+              missing=1
+            fi
+          done
+          if [[ -z "$CANDIDATE_VERSION" ]]; then
+            echo "::error title=Missing prompt version::The dispatch payload or manual input must provide a candidate prompt version."
+            missing=1
+          fi
+          exit "$missing"
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:

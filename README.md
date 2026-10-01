@@ -27,7 +27,7 @@ It fetches the prompt with the `production` label, asks the model to choose a qu
 
 ## 2. Connect Langfuse to GitHub Actions
 
-Push this repository to GitHub with [`.github/workflows/prompt-ci.yml`](.github/workflows/prompt-ci.yml) on the default branch. Add repository secrets `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `OPENAI_API_KEY`. If your Langfuse instance is outside the default EU cloud region, set the repository variable `LANGFUSE_BASE_URL`.
+Push this repository to GitHub with [`.github/workflows/prompt-ci.yml`](.github/workflows/prompt-ci.yml) on the default branch. In **Settings → Secrets and variables → Actions → Secrets**, add repository secrets `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `OPENAI_API_KEY`. The local `.env` file is not sent to GitHub Actions, and values entered under **Variables** do not populate `secrets.*`. If you use environment secrets instead, assign that environment to the `evaluate` job in the workflow. If your Langfuse instance is outside the default EU cloud region, set `LANGFUSE_BASE_URL` under **Variables**. The workflow checks for missing credentials before installing dependencies or starting an experiment.
 
 In Langfuse, open **Prompts → Automations → Create Automation → GitHub Repository Dispatch**. Set:
 
